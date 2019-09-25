@@ -11,9 +11,7 @@ module Yabeda
     ].freeze
 
     class << self
-      def bind_metrics!
-        puts 'Yabeda-Grape is installed'
-
+      def bind_metrics
         Yabeda.configure do
           group :grape
 
@@ -30,14 +28,8 @@ module Yabeda
               status: event.payload[:endpoint].status
             }
 
-            puts "yabeda-grape #{labels.inspect}"
-
             grape_requests_total.increment(labels)
             grape_request_duration.measure(labels, Yabeda::Grape.ms2s(event.duration))
-  
-            # Yabeda::Rails.controller_handlers.each do |handler|
-            #   handler.call(event, labels)
-            # end
           end
         end
       end
