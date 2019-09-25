@@ -1,5 +1,7 @@
 # Yabeda::Grape
 
+Metrics for monitoring Grape endpoints.
+
 ## Installation
 
 Add this line to your application's Gemfile:
