@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Extensible metrics for monitoring Grape API endpoints'
   spec.description   = 'Easy collecting your Grape endpoints metrics'
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/efigence/yabeda-grape'
   spec.license       = 'MIT'
 
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
