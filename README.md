@@ -34,6 +34,10 @@ Yabeda::Grape.bind_metrics
 * `grape_requests_total` - Total requests received
 * `grape_request_duration_seconds` - Request duration (in seconds)
 
+## PromQL examples:
+
+* `abs(irate(grape_requests_total[5m]))` - Requests per second (for every endpoint)
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/efigence/yabeda-grape.
