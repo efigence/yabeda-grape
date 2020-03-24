@@ -16,9 +16,9 @@ module Yabeda
           group :grape
 
           counter   :requests_total, comment: "A counter of the total number of HTTP requests rails processed.",
-                                     tags: %i[controller action status format method]
+                                     tags: %i[method path status]
           histogram :request_duration, unit: :seconds, buckets: LONG_RUNNING_REQUEST_BUCKETS,
-                                       tags: %i[controller action status format method],
+                                       tags: %i[method path status],
                                        comment: "A histogram of the response latency."
   
           ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |*args|
