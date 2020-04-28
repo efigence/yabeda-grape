@@ -20,13 +20,13 @@ module Yabeda
           histogram :request_duration, unit: :seconds, buckets: LONG_RUNNING_REQUEST_BUCKETS,
                                        tags: %i[method path status],
                                        comment: "A histogram of the response latency."
-  
+
           ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |*args|
             event = ActiveSupport::Notifications::Event.new(*args)
 
             labels = {
               method: event.payload[:endpoint].options[:method].first.downcase,
-              path: event.payload[:endpoint].request.path,
+              path: event.payload[:endpoint].route.path,
               status: event.payload[:endpoint].status
             }
 
