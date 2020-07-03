@@ -24,11 +24,7 @@ module Yabeda
           ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |*args|
             event = ActiveSupport::Notifications::Event.new(*args)
 
-            labels = {
-              method: event.payload[:endpoint].options[:method].first.downcase,
-              path: event.payload[:endpoint].route.path,
-              status: event.payload[:endpoint].status
-            }
+            next unless (labels = Yabeda::Grape.extract_labels(event))
 
             grape_requests_total.increment(labels)
             grape_request_duration.measure(labels, Yabeda::Grape.ms2s(event.duration))
@@ -38,6 +34,20 @@ module Yabeda
 
       def ms2s(ms)
         (ms.to_f / 1000).round(3)
+      end
+
+      def extract_labels(event)
+        return unless (endpoint = event.payload[:endpoint])
+
+        # endpoint.route.path can throw an error in Grape inside_route.rb, which
+        # is caught below
+        path = endpoint.route&.path # path description (e.g. /user/{id}.json)
+        method = endpoint.options[:method]&.first&.downcase # http method
+        status = endpoint.status # http code
+
+        { method: method, path: path, status: status }
+      rescue StandardError
+        nil
       end
     end
   end
